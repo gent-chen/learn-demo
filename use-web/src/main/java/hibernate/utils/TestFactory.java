@@ -10,12 +10,18 @@ import org.hibernate.query.Query;
 public class TestFactory {
 
     public static void main(String[] args){
-
-        SessionFactory sessionFactory=getSessionFactory();
-        Session session=sessionFactory.openSession();
-        Query query=session.createQuery("from User");
-        for(Object o:query.list()){
-            System.out.println(o);
+        SessionFactory sessionFactory=null;
+        Session session=null;
+        try{
+            sessionFactory=getSessionFactory();
+            session=sessionFactory.openSession();
+            Query query=session.createQuery("from MutiKeyEntity");
+            for(Object o:query.list()){
+                System.out.println(o);
+            }
+        }finally {
+            sessionFactory.close();
+            session.close();
         }
     }
 
@@ -32,6 +38,8 @@ public class TestFactory {
             // The registry would be destroyed by the SessionFactory, but we had trouble building the SessionFactory
             // so destroy it manually.
             StandardServiceRegistryBuilder.destroy( registry );
+            e.printStackTrace();
         }
+        return null;
     }
 }
