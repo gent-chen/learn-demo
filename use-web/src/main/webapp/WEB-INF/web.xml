@@ -1,0 +1,64 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  
+  <listener>
+    <listener-class>spring.test.TestListener</listener-class>
+  </listener>
+  
+  <servlet>
+    <servlet-name>B</servlet-name>
+    <servlet-class>spring.mvc.BServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>B</servlet-name>
+    <url-pattern>/B</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>C</servlet-name>
+    <servlet-class>spring.mvc.CServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>C</servlet-name>
+    <url-pattern>/C</url-pattern>
+  </servlet-mapping>
+
+
+  <!--spring配置start-->
+  <!--spring监听器-web启动时执行-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <!--指定applicationContext.xml的路径，默认路径是/WEB-INF/applicationContext.xml-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+      classpath:applicationContext.xml
+    </param-value>
+  </context-param>
+  <!--spring配置end-->
+
+  <!--SpringMVC配置start-->
+  <servlet>
+    <servlet-name>springMVC</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <!--SpringMVC配置参数文件的位置 -->
+      <param-name>contextConfigLocation</param-name>
+      <!--默认名称为ServletName-servlet.xml -->
+      <param-value>classpath:springmvc-servlet.xml</param-value>
+    </init-param>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>springMVC</servlet-name>
+    <url-pattern>/demo/</url-pattern>
+  </servlet-mapping>
+  <!--SpringMVC配置end-->
+  <welcome-file-list>
+    <welcome-file>/index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
