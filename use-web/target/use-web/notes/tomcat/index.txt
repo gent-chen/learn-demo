@@ -1,3 +1,0 @@
-1.javax.servlet-api 是 servlet.jar 3.0及之后的名称，servlet-api 是servlet 3.0之前的名称。
-2.查看tomcat中servlet-api版本在路径\lib\servlet-api.jar 解压查看Manifest.MF
-3.tomcat 日志 乱码 问题解决方法：\conf\logging.properties中java.util.logging.ConsoleHandler.encoding更改为GBK
