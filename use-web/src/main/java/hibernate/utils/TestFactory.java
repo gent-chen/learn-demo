@@ -3,9 +3,11 @@ package hibernate.utils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.query.Query;
+import org.hibernate.Query;
+import org.hibernate.secure.spi.JaccIntegrator;
 
 public class TestFactory {
 
@@ -40,6 +42,19 @@ public class TestFactory {
             StandardServiceRegistryBuilder.destroy( registry );
             e.printStackTrace();
         }
+        return null;
+    }
+
+
+    public static SessionFactory getMyFactory(){
+//        BootstrapServiceRegistry
+        BootstrapServiceRegistryBuilder bootstrapServiceRegistryBuilder=new BootstrapServiceRegistryBuilder();
+        bootstrapServiceRegistryBuilder.applyClassLoader(ClassLoader.getSystemClassLoader());
+        bootstrapServiceRegistryBuilder.applyIntegrator(new JaccIntegrator());
+
+//        StandardServiceRegistry
+        StandardServiceRegistryBuilder standardServiceRegistryBuilder=new StandardServiceRegistryBuilder(bootstrapServiceRegistryBuilder.build());
+
         return null;
     }
 }

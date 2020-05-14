@@ -4,4 +4,27 @@
       <artifactId>hibernate-core</artifactId>
       <version>5.2.17.Final</version>
     </dependency>
-2.
+2.实现原理分析：
+    1.BootstrapServiceRegistryBuilder生成BootstrapServiceRegistry
+    2.BootstrapServiceRegistry
+
+    ClassLoaderService
+
+    classloader:1.通过applyClassLoader方法自定义
+                2.ClassLoaderServiceImpl.class.getClassLoader()
+                3.Thread.currentThread().getContextClassLoader()
+                4.ClassLoader.getSystemClassLoader()
+
+                存放在AggregatedClassLoader.individualClassLoaders中
+
+    IntegratorService
+
+    integrator:1.通过applyIntegrator方法自定义
+               2.BeanValidationIntegrator
+               3.JaccIntegrator
+               4.CollectionCacheInvalidator
+               5.通过META-INF/services/配置获取
+
+               存放在integrators中
+
+    StrategySelector

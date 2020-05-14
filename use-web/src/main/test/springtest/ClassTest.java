@@ -5,7 +5,12 @@ import org.springframework.web.context.WebApplicationContext;
 import spring.tomcat.ServeltImpl;
 
 import javax.servlet.ServletException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
@@ -19,15 +24,15 @@ public class ClassTest {
     }
 
     @Test
-    public void hibernateTest(){
-        ServiceLoader<AutoCloseable> serviceLoader = ServiceLoader.load( AutoCloseable.class );
+    public void hibernateTest() throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
+        ServiceLoader<CharSequence> serviceLoader = ServiceLoader.load( CharSequence.class );
+        System.out.println(CharSequence.class.getName());
         int count=0;
-        Iterator<AutoCloseable> iterator=serviceLoader.iterator();
+        Iterator<CharSequence> iterator=serviceLoader.iterator();
         while(iterator.hasNext()){
             count++;
-            iterator.next();
+            System.out.println(iterator.next().getClass());
         }
-
         System.out.println(count);
     }
 }

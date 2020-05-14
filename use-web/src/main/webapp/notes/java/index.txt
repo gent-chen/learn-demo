@@ -1,0 +1,7 @@
+1.ServiceLoader.java(see hibernateTest.java|hibernateTest method)
+    获取META-INF/services/${className}中文件的类名并实例化,类名需要实现className
+
+    eg.
+    CharSequence.class.getName();//得到java.lang.CharSequence，则配置文件路径为：META-INF/services/java.lang.CharSequence
+    配置文件中每行的类名都应该implements CharSequence
+    实例化注意有些类名实例化会报错
