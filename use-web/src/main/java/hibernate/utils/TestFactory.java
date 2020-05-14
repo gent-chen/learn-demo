@@ -3,6 +3,7 @@ package hibernate.utils;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.BootstrapServiceRegistry;
 import org.hibernate.boot.registry.BootstrapServiceRegistryBuilder;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -47,14 +48,28 @@ public class TestFactory {
 
 
     public static SessionFactory getMyFactory(){
-//        BootstrapServiceRegistry
+
+//        BootstrapServiceRegistryBuilder
         BootstrapServiceRegistryBuilder bootstrapServiceRegistryBuilder=new BootstrapServiceRegistryBuilder();
         bootstrapServiceRegistryBuilder.applyClassLoader(ClassLoader.getSystemClassLoader());
         bootstrapServiceRegistryBuilder.applyIntegrator(new JaccIntegrator());
+        bootstrapServiceRegistryBuilder.applyClassLoaderService(null);
+        bootstrapServiceRegistryBuilder.applyStrategySelector(null,null,null);
+        bootstrapServiceRegistryBuilder.applyStrategySelectors(null);
+
+
+//        BootstrapServiceRegistry
+        BootstrapServiceRegistry bootstrapServiceRegistry=bootstrapServiceRegistryBuilder.enableAutoClose().build();
+
+//        StandardServiceRegistryBuilder
+        StandardServiceRegistryBuilder standardServiceRegistryBuilder=new StandardServiceRegistryBuilder(bootstrapServiceRegistry);
+        standardServiceRegistryBuilder.addInitiator(null);
+        standardServiceRegistryBuilder.addService(null,null);
+        standardServiceRegistryBuilder.applySetting(null,null);
+        standardServiceRegistryBuilder.applySettings(null);
 
 //        StandardServiceRegistry
-        StandardServiceRegistryBuilder standardServiceRegistryBuilder=new StandardServiceRegistryBuilder(bootstrapServiceRegistryBuilder.build());
-
+        StandardServiceRegistry standardServiceRegistry=standardServiceRegistryBuilder.build();
         return null;
     }
 }

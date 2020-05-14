@@ -1,0 +1,137 @@
+一.BootstrapServiceRegistryBuilder-----BootstrapServiceRegistry{ClassLoaderService,IntegratorService,StrategySelector} 类加载服务，集成服务，策略选择器
+
+1.BootstrapServiceRegistryBuilder
+
+	1.1 LinkedHashSet<Integrator> providedIntegrators;//自定义的integrator
+	1.2 List<ClassLoader> providedClassLoaders;//自定义classLoader
+	1.3 ClassLoaderService providedClassLoaderService;//自定义classLoaderService，如何没有自定义则使用2
+	1.4 StrategySelectorBuilder strategySelectorBuilder;
+	1.5 boolean autoCloseRegistry = true;
+
+2.ClassLoaderServiceImpl
+
+	2.1 ConcurrentMap<Class, ServiceLoader> serviceLoaders;//缓存已获取到的ServiceLoader,如何获取？从ServiceLoader.load中获取，ServiceLoader是一组实现指定接口的类集合
+	2.2 AggregatedClassLoader aggregatedClassLoader;//加载各种类或URL资源
+		//2.2.1 providedClassLoaders;//见1.2
+		//2.2.2 ClassLoaderServiceImpl;
+		//2.2.3 Thread.currentThread().getContextClassLoader();
+		//2.2.4 ClassLoader.getSystemClassLoader();
+
+
+3.StrategySelectorBuilder
+
+	3.1	List<StrategyRegistration> explicitStrategyRegistrations;
+	
+4.StrategyRegistration
+
+	4.1 Class<T> strategyRole;//相当于6.1中的strategy
+	4.2 Class<? extends T> strategyImplementation;//相当于6.1中的implementation
+	4.3 Iterable<String> selectorNames;//相当于6.1中的name的集合
+	
+	
+5.IntegratorServiceImpl
+
+	5.1 LinkedHashSet<Integrator> integrators;
+		//5.1.1 BeanValidationIntegrator
+		//5.1.2 JaccIntegrator
+		//5.1.3 CollectionCacheInvalidator
+		//5.1.4 providedIntegrators;//见1.1
+		//5.1.5 从2.1获取实现Integrator.class接口的类
+
+6.StrategySelectorImpl
+
+	6.1 Map<Class,Map<String,Class>> namedStrategyImplementorByStrategyMap;//缓存strategy,例如：{strategy=Dialect.class,{name=Cache71,implementation=Cache71Dialect.class}}
+		//6.1.1 Dialect.class
+		//6.1.2	JtaPlatform.class
+		//6.1.3	TransactionCoordinatorBuilder.class
+		//6.1.4	MultiTableBulkIdStrategy.class
+		//6.1.5	EntityCopyObserver.class
+		//6.1.6	ImplicitNamingStrategy.class
+		//6.1.7 从2.1获取实现StrategyRegistrationProvider.class接口的类
+		//6.1.8 从3.1中获取
+	6.2 ClassLoaderService classLoaderService;//见2
+	
+7.BootstrapServiceRegistryImpl
+	
+	7.1 boolean autoCloseRegistry；
+	7.2 boolean active = true;
+	7.3 LinkedHashSet<Integrator> NO_INTEGRATORS;
+	7.4 ServiceBinding<ClassLoaderService> classLoaderServiceBinding;
+	7.5 ServiceBinding<StrategySelector> strategySelectorBinding;
+	7.6 ServiceBinding<IntegratorService> integratorServiceBinding;
+	7.7 Set<ServiceRegistryImplementor> childRegistries;
+	
+8.ServiceBinding
+	8.1 ServiceLifecycleOwner lifecycleOwner;//生命周期拥有者，一般指BootstrapServiceRegistryImpl
+	8.2 Class<R> serviceRole;//服务接口
+	8.3 ServiceInitiator<R> serviceInitiator;
+	8.4 R service;//实现服务接口接口的类
+
+二.
+
+9.StandardServiceRegistryBuilder
+	
+	9.1 String DEFAULT_CFG_RESOURCE_NAME = "hibernate.cfg.xml";
+	9.2 Map settings;//获取11.2中值和10中10.2的值
+		
+	9.3 List<StandardServiceInitiator> initiators;
+	9.4 List<ProvidedService> providedServices;//自定义ProvidedService
+	9.5 boolean autoCloseRegistry = true;
+	9.6 BootstrapServiceRegistry bootstrapServiceRegistry;//获取7
+	9.7 ConfigLoader configLoader;//见12
+	9.8 LoadedConfig aggregatedCfgXml;//见10
+
+
+10.LoadedConfig 收集cfg.xml 文件的信息
+
+	10.1 String sessionFactoryName;//获取xml中name值
+	10.2 Map configurationValues;//xml中property
+	10.3 Map<String,JaccPermissionDeclarations> jaccPermissionsByContextId;//xml中grant
+	10.4 List<CacheRegionDefinition> cacheRegionDefinitions;//xml中collection-cache和class-cache
+	10.5 List<MappingReference> mappingReferences;//xml中mapping
+	10.6 Map<EventType,Set<String>> eventListenerMap;//xml中event和listener
+	
+	
+11.Environment
+
+	11.1 BytecodeProvider BYTECODE_PROVIDER_INSTANCE;//获取11.2中属性为hibernate.bytecode.provider的值，默认为javassist，实例化new org.hibernate.bytecode.internal.javassist.BytecodeProviderImpl()
+		
+	
+	11.2 Properties GLOBAL_PROPERTIES;
+		
+		//11.2.1 hibernate.bytecode.use_reflection_optimizer=false;
+		//11.2.2 获取/hibernate.properties
+		//11.2.3 System.getProperties()
+		
+12.ConfigLoader 加载{cfg.xml} 文件
+
+	12.1 BootstrapServiceRegistry bootstrapServiceRegistry;//见7
+	12.2 ValueHolder<JaxbCfgProcessor> jaxbProcessorHolder;//
+	
+13.JaxbCfgProcessor
+
+	13.1 ClassLoaderService classLoaderService;//见2
+	13.2 LocalXmlResourceResolver xmlResourceResolver;
+	
+14.JaxbCfgHibernateConfiguration
+
+
+15.StandardServiceRegistryImpl
+
+
+
+三.
+
+16.MetadataSources
+
+	16.1 ServiceRegistry serviceRegistry;//见15
+	16.2 XmlMappingBinderAccess xmlMappingBinderAccess;
+	
+	
+17.MetadataBuilderImpl
+
+	17.1 MetadataSources sources;
+	17.2 MetadataBuildingOptionsImpl options;
+	
+
+

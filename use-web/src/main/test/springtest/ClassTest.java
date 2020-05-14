@@ -1,5 +1,6 @@
 package springtest;
 
+import org.hibernate.dialect.Cache71Dialect;
 import org.junit.Test;
 import org.springframework.web.context.WebApplicationContext;
 import spring.tomcat.ServeltImpl;
@@ -19,8 +20,9 @@ public class ClassTest {
     @Test
     public void testAdd() throws ServletException, IOException {
         System.out.println(WebApplicationContext.class.getName() + ".ROOT");
-        ServeltImpl impl=new ServeltImpl();
-        impl.service(null,null);
+        System.out.println(Cache71Dialect.class.getName());
+//        ServeltImpl impl=new ServeltImpl();
+//        impl.service(null,null);
     }
 
     @Test

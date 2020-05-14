@@ -28,3 +28,14 @@
                存放在integrators中
 
     StrategySelector
+
+    namedStrategyImplementorByStrategyMap
+
+
+
+    3.StandardServiceRegistry
+    configurationValues
+
+
+
+    解析xml使用jaxb和stax
