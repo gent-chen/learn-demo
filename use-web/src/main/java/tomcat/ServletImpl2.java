@@ -1,4 +1,4 @@
-package spring.tomcat;
+package tomcat;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;

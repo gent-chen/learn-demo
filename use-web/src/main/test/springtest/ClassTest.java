@@ -3,15 +3,9 @@ package springtest;
 import org.hibernate.dialect.Cache71Dialect;
 import org.junit.Test;
 import org.springframework.web.context.WebApplicationContext;
-import spring.tomcat.ServeltImpl;
 
 import javax.servlet.ServletException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.ServiceLoader;
 
