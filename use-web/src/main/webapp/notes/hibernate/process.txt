@@ -1,0 +1,39 @@
+1.创建BootstrapServiceRegistryBuilder对象，简称为A，并设置A为自动关闭注册中心（autoCloseRegistry=true）
+2.根据A对象生成BootstrapServiceRegistry对象，简称AB,生成过程如下：
+    2.1绑定ClassLoaderService（类加载服务）
+        2.1.1用户是否自定义了ClassLoaderService，如果没有(providedClassLoaderService == null)则创建ClassLoaderServiceImpl对象，创建过程如下：
+            2.1.1.1
+
+    2.2绑定StrategySelector（策略选择器）
+        2.2.1创建StrategySelectorImpl对象，创建过程如下：
+            2.2.1.1
+
+
+    2.3绑定IntegratorService（集成器服务:添加和获取Integrator）
+        2.3.1创建IntegratorServiceImpl对象，创建过程如下：
+            2.3.1.1添加集成器
+                2.3.1.1.1 BeanValidationIntegrator
+                2.3.1.1.2 JaccIntegrator
+                2.3.1.1.3 CollectionCacheInvalidator
+                2.3.1.1.4 用户自定义的集成器
+                2.3.1.1.5 META-INF/services/中实现Integrator的类
+
+3.根据AB对象生成StandardServiceRegistryBuilder对象，简称B，创建过程如下：
+    3.1收集属性给settings
+        3.1.1 hibernate.bytecode.use_reflection_optimizer=false;
+        3.1.2 获取/hibernate.properties
+        3.1.3 System.getProperties()
+    3.2将对象AB赋值给bootstrapServiceRegistry
+    3.3根据对象AB生成ConfigLoader对象赋值给configLoader
+    3.4创建LoadedConfig对象给aggregatedCfgXml
+
+4.将*.cfg.xml文件信息加载进对象B中
+    4.1对象B中的aggregatedCfgXml合并xml文件内容
+    4.2对象B中的settings合并xml文件中configurationValues值
+
+5.根据B生成StandardServiceRegistry对象，创建过程如下：
+
+    5.1 providedServices属性添加实现ServiceContributingIntegrator接口的集成器
+    5.2 META-INF/services/中实现ServiceContributor的类
+
+
