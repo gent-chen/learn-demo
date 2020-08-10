@@ -63,6 +63,13 @@
       <artifactId>mysql-connector-java</artifactId>
       <version>${mysql.connector.version}</version>
     </dependency>
+
+    <!--spring-jdbc-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>${spring.version}</version>
+    </dependency>
   </dependencies>
 
   <build>

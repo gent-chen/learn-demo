@@ -6,7 +6,13 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.servlet.ServletException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.ServiceLoader;
 
 public class ClassTest {
@@ -31,4 +37,22 @@ public class ClassTest {
         }
         System.out.println(count);
     }
+
+    @Test
+    public void testProperties() throws IOException, URISyntaxException {
+        Properties properties=new Properties();
+//        URI uri=new URI("");
+        InputStream stream = null;
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        stream=classLoader.getResourceAsStream("jdbc.properties");
+        ClassLoader.getSystemResourceAsStream("");
+        this.getClass().getClassLoader().getResourceAsStream("");
+
+        ClassTest.class.getResourceAsStream("");
+
+//        InputStream in=new URL("classpath*:jdbc.properties").openStream();
+//        InputStream inputStream=this.getClass().getClassLoader().getResourceAsStream("");
+        properties.load(stream);
+    }
+
 }
